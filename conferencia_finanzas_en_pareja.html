@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Las Finanzas en Pareja según el Diseño de Dios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f6efdf; --cream2:#fbf6ea; --paper:#fffdf7;
+    --green:#1e3a2b; --green2:#2f5741; --green3:#4b7a5c;
+    --gold:#b0894f; --gold2:#c9a86a; --gold-soft:#e6d6b2;
+    --ink:#2c2a22; --muted:#6f7261; --line:#e3dac3;
+    --red:#a6473b; --redbg:#f6e6e2;
+    --serif:"Playfair Display",Georgia,'Times New Roman',serif;
+    --script:"Great Vibes",cursive;
+    --garamond:"Cormorant Garamond",Georgia,serif;
+    --sans:"Montserrat","Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{
+    font-family:var(--sans);color:var(--ink);
+    background:
+      radial-gradient(1100px 700px at 82% -12%, #efe6cf 0%, rgba(239,230,207,0) 55%),
+      radial-gradient(900px 600px at 10% 110%, #ece1c6 0%, rgba(236,225,198,0) 55%),
+      var(--cream);
+  }
+
+  /* ---------- Slide shell ---------- */
+  .deck{position:fixed;inset:0}
+  .slide{
+    position:absolute;inset:0;
+    display:none;flex-direction:column;justify-content:center;
+    padding:6vh 8vw;opacity:0;transition:opacity .5s ease;
+  }
+  .slide.active{display:flex;opacity:1;z-index:2}
+  .slide.center{align-items:center;text-align:center}
+
+  /* ---------- Botanical corner ---------- */
+  .leaf{position:absolute;width:20vw;max-width:290px;opacity:.9;z-index:0;pointer-events:none}
+  .leaf.tl{top:-1.5vh;left:-1vw}
+  .leaf.br{bottom:-1.5vh;right:-1vw;transform:rotate(180deg)}
+  .leaf.tr{top:-1.5vh;right:-1vw;transform:scaleX(-1)}
+  .frame{position:absolute;inset:2.4vh 2.4vw;border:1.5px solid var(--gold);border-radius:6px;z-index:0;pointer-events:none;opacity:.55}
+
+  /* ---------- Typography ---------- */
+  .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-weight:600;color:var(--gold);font-size:clamp(.7rem,1.15vw,1rem)}
+  h1{font-family:var(--serif);font-weight:800;color:var(--green);
+    font-size:clamp(2.1rem,5.4vw,4.6rem);line-height:1.02;letter-spacing:.5px}
+  h2{font-family:var(--serif);font-weight:700;color:var(--green);
+    font-size:clamp(1.7rem,3.9vw,3.1rem);line-height:1.08}
+  h3{font-family:var(--serif);font-weight:600;color:var(--green2);
+    font-size:clamp(1.1rem,2vw,1.7rem)}
+  p,li{font-size:clamp(.95rem,1.55vw,1.32rem);line-height:1.6;color:var(--ink)}
+  .lead{font-size:clamp(1.05rem,1.9vw,1.6rem);color:var(--muted);line-height:1.55}
+  .muted{color:var(--muted)}
+  .green{color:var(--green)} .gold{color:var(--gold)} .dark{color:var(--green)}
+  strong{color:var(--green);font-weight:700}
+  .script{font-family:var(--script);color:var(--green);line-height:.9}
+
+  /* ---------- Divider heart ---------- */
+  .hr{display:flex;align-items:center;justify-content:center;gap:14px;margin:2.2vh 0;color:var(--gold)}
+  .hr::before,.hr::after{content:"";height:1.5px;width:min(16vw,150px);background:var(--gold);opacity:.7}
+  .hr svg{width:22px;height:22px;fill:var(--gold)}
+
+  /* ---------- Verse ---------- */
+  .verse{font-family:var(--garamond);font-style:italic;color:var(--green2);
+    font-size:clamp(1.2rem,2.4vw,2rem);line-height:1.4}
+  .ref{font-family:var(--sans);letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;font-size:clamp(.72rem,1.1vw,.95rem);margin-top:1vh}
+  .versecard{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--gold);
+    border-radius:10px;padding:2.4vh 2.4vw;box-shadow:0 10px 30px rgba(60,50,20,.06)}
+
+  /* ---------- Cards / grids ---------- */
+  .grid{display:grid;gap:2vh 2vw;width:100%}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:2.4vh 2vw;box-shadow:0 8px 24px rgba(60,50,20,.05)}
+  .card h3{margin-bottom:.6vh}
+  .card .ico{width:clamp(38px,3.4vw,54px);height:clamp(38px,3.4vw,54px);border-radius:50%;
+    background:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:1.2vh}
+  .card .ico svg{width:55%;height:55%;fill:var(--gold-soft)}
+  .card.err{border-left:5px solid var(--red)}
+  .card.ok{border-left:5px solid var(--green3)}
+  .num{font-family:var(--serif);font-weight:800;color:var(--gold-soft);
+    font-size:clamp(1.6rem,3vw,2.6rem);line-height:1}
+
+  .pill{display:inline-flex;align-items:center;gap:.5em;background:#eadfc4;border:1px solid var(--gold);
+    color:var(--green);border-radius:999px;padding:.5em 1.2em;font-weight:600;
+    font-size:clamp(.75rem,1.15vw,1rem);letter-spacing:.05em}
+  .tag{position:fixed;top:2.6vh;right:3.2vw;z-index:20;background:#eadfc4;border:1px solid var(--gold);
+    color:var(--green);border-radius:999px;padding:.45em 1.1em;font-weight:600;letter-spacing:.06em;
+    font-size:clamp(.6rem,.95vw,.82rem);text-transform:uppercase}
+  .who{position:fixed;top:2.6vh;left:3.2vw;z-index:20;color:var(--gold);font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;font-size:clamp(.6rem,.9vw,.8rem)}
+
+  ul.clean{list-style:none;display:flex;flex-direction:column;gap:1.3vh}
+  ul.clean li{display:flex;gap:.8em;align-items:flex-start}
+  ul.clean li::before{content:"";flex:none;margin-top:.55em;width:9px;height:9px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 0 3px rgba(176,137,79,.18)}
+  ul.check li::before{content:"✓";background:none;box-shadow:none;color:var(--green3);font-weight:800;
+    width:auto;height:auto;margin-top:0;font-size:1.1em}
+
+  .ex{background:#f0ead8;border-radius:10px;padding:1.6vh 1.6vw;margin-top:1.4vh;
+    font-size:clamp(.85rem,1.35vw,1.12rem);color:var(--ink)}
+  .ex b{color:var(--gold);text-transform:uppercase;letter-spacing:.1em;font-size:.82em}
+
+  /* semaforo */
+  .light{display:flex;align-items:center;gap:1vw;background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;padding:2vh 1.6vw;box-shadow:0 8px 24px rgba(60,50,20,.05)}
+  .dot{flex:none;width:clamp(30px,3.2vw,52px);height:clamp(30px,3.2vw,52px);border-radius:50%}
+  .dot.g{background:#5c9c6d;box-shadow:0 0 0 5px rgba(92,156,109,.18)}
+  .dot.y{background:#d9b64e;box-shadow:0 0 0 5px rgba(217,182,78,.18)}
+  .dot.r{background:#c26152;box-shadow:0 0 0 5px rgba(194,97,82,.18)}
+
+  .flow{display:flex;align-items:stretch;justify-content:center;gap:1vw;flex-wrap:wrap;width:100%}
+  .flowbox{flex:1;min-width:150px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:2.4vh 1.4vw;text-align:center;box-shadow:0 8px 24px rgba(60,50,20,.05)}
+  .flowbox .big{font-family:var(--serif);font-weight:800;color:var(--green);font-size:clamp(1.3rem,2.6vw,2.2rem)}
+  .arrow{display:flex;align-items:center;color:var(--gold);font-size:2vw;font-weight:700}
+
+  .imgwrap{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:1vh;
+    box-shadow:0 12px 34px rgba(60,50,20,.1)}
+  .imgwrap img{width:100%;border-radius:6px;display:block}
+  .photo{border-radius:14px;box-shadow:0 16px 40px rgba(60,50,20,.16);object-fit:cover}
+
+  /* ---------- Cover ---------- */
+  .cover .script{font-size:clamp(3.6rem,10vw,8.4rem)}
+  .cover .title-main{font-family:var(--serif);font-weight:800;color:var(--green);
+    font-size:clamp(2rem,6.4vw,5.4rem);line-height:1;letter-spacing:.5px}
+  .cover .sub{letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:600;
+    font-size:clamp(.8rem,1.9vw,1.5rem)}
+
+  /* ---------- Section divider ---------- */
+  .section-slide{align-items:center;text-align:center}
+  .section-slide .bignum{font-family:var(--serif);font-weight:800;color:var(--gold-soft);
+    font-size:clamp(3rem,9vw,8rem);line-height:.8;opacity:.7}
+
+  /* ---------- Chrome (nav/progress/counter) ---------- */
+  .progress{position:fixed;top:0;left:0;height:5px;background:linear-gradient(90deg,var(--gold),var(--green3));
+    z-index:40;transition:width .4s ease}
+  .count{position:fixed;bottom:2.4vh;left:3.2vw;z-index:30;color:var(--gold);font-weight:600;
+    letter-spacing:.12em;font-size:clamp(.65rem,.95vw,.85rem)}
+  .foot{position:fixed;bottom:2.4vh;right:3.2vw;z-index:30;color:var(--muted);
+    letter-spacing:.1em;font-size:clamp(.6rem,.9vw,.8rem);text-transform:uppercase}
+  .nav{position:fixed;bottom:2vh;left:50%;transform:translateX(-50%);z-index:40;display:flex;gap:10px}
+  .nav button{background:var(--cream2);border:1px solid var(--gold);color:var(--green);
+    width:40px;height:40px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:.2s;
+    display:flex;align-items:center;justify-content:center}
+  .nav button:hover{background:var(--green);color:var(--gold-soft)}
+  .hint{position:fixed;bottom:2.6vh;left:50%;transform:translateX(-50%) translateY(46px);
+    color:var(--muted);font-size:.75rem;z-index:30;opacity:.7}
+
+  @media (max-width:820px){
+    .g2,.g3{grid-template-columns:1fr}
+    .slide{padding:8vh 7vw}
+    .leaf{max-width:150px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+  <!-- ============ 0. PORTADA ============ -->
+  <section class="slide center cover active" data-who="">
+    <svg class="leaf tl" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/><path d="M15 40 C55 60 75 100 80 150 C50 120 25 90 15 40Z" fill="#8fa87d"/></g><g stroke="#b0894f" stroke-width="2" fill="none"><path d="M25 25 C70 45 110 45 165 38"/><path d="M22 45 C55 75 72 110 78 150"/></g><circle cx="168" cy="36" r="4" fill="#c9a86a"/><circle cx="150" cy="30" r="3" fill="#c9a86a"/></svg>
+    <div class="kicker" style="margin:1.5vh 0 .8vh">Conferencia</div>
+    <div class="title-main">LAS FINANZAS EN PAREJA</div>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+    <div class="sub">Según el diseño de Dios</div>
+    <div class="versecard" style="margin-top:4vh;max-width:640px">
+      <div class="verse">"Dos son mejor que uno; porque tienen mejor paga de su trabajo."</div>
+      <div class="ref">Eclesiastés 4:9</div>
+    </div>
+    <div class="foot" style="position:static;margin-top:4vh;text-transform:none;letter-spacing:.1em">
+      Tomas Jiménez &nbsp;&amp;&nbsp; Claudia Ogando
+    </div>
+  </section>
+
+  <!-- ============ 0b. EXPOSITORES ============ -->
+  <section class="slide" data-who="Apertura · Ambos">
+    <div class="grid g2" style="align-items:center;gap:2vw">
+      <div>
+        <div class="kicker">Sus expositores</div>
+        <h2 style="margin:1.4vh 0">Tomas Jiménez<br><span class="gold">&amp;</span> Claudia Ogando</h2>
+        <ul class="clean" style="margin-top:2vh">
+          <li><span><strong>Mentores Asociados</strong> de matrimonios y familia por <em>Christian Family &amp; Marriage Institute (CFAMI)</em>.</span></li>
+          <li><span>Claudia — <strong>Psicóloga Clínica e Infantojuvenil</strong>, Analista Conductual Certificada (BCBA).</span></li>
+          <li><span>Tomas — Máster en Estadística Aplicada e Ingeniería Matemática; empresario en el sector privado (EE.&nbsp;UU.).</span></li>
+          <li><span>Sirviendo al Señor en la <strong>edificación y restauración de las familias</strong> conforme a las Escrituras.</span></li>
+        </ul>
+        <div class="pill" style="margin-top:2.4vh">Una pareja real, aprendiendo a administrar juntos</div>
+      </div>
+      <div class="imgwrap">
+        <img class="photo" src="Recursos/amor_y_finanzas_AD_Fuente_De_Luz_y_vida_1er/expositores.jpeg" alt="Tomas y Claudia" style="width:100%">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 0c. QUÉ SE LLEVAN HOY ============ -->
+  <section class="slide center" data-who="Apertura · Ambos">
+    <div class="kicker">Qué se llevan hoy</div>
+    <h2 style="margin:2vh 0 1vh;max-width:1100px">No venimos a dar teorías de un libro.<br>Venimos a compartir <span class="gold">lo que vivimos</span>.</h2>
+    <p class="lead" style="max-width:900px;margin-bottom:3vh">Herramientas prácticas para administrar el dinero <strong>juntos</strong>, con verdad y paz — y algunos principios de la Palabra que las sostienen.</p>
+    <div class="grid g3" style="max-width:1100px">
+      <div class="card"><div class="num">1</div><h3>El fundamento</h3><p class="muted">El dinero según el diseño de Dios.</p></div>
+      <div class="card"><div class="num">2</div><h3>Lo básico</h3><p class="muted">Presupuesto, ahorro, deudas, generosidad.</p></div>
+      <div class="card"><div class="num">3</div><h3>La práctica</h3><p class="muted">Errores a evitar y cómo lo aplicamos.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 1 — DIVIDER ============ -->
+  <section class="slide section-slide" data-who="Bloque 1 · Claudia">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="bignum">01</div>
+    <div class="kicker" style="margin:2vh 0 1vh">El fundamento</div>
+    <h1 style="max-width:1000px">El dinero según el diseño de Dios</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+  </section>
+
+  <!-- 1.1 herramienta y mayordomía -->
+  <section class="slide" data-who="Bloque 1 · Claudia">
+    <div class="kicker">El fundamento</div>
+    <h2 style="margin:1.5vh 0 3vh">El dinero no es la meta… ni el enemigo</h2>
+    <div class="grid g3">
+      <div class="card err"><h3>No es la meta</h3><p class="muted">Correr tras el dinero no llena el corazón ni sostiene un hogar.</p></div>
+      <div class="card err"><h3>No es el enemigo</h3><p class="muted">El dinero no es malo; el amor al dinero sí (1 Ti. 6:10).</p></div>
+      <div class="card ok"><h3>Es una herramienta</h3><p class="muted">Y una <strong>prueba de mayordomía</strong>: revela a quién servimos.</p></div>
+    </div>
+    <p class="lead" style="margin-top:3vh;text-align:center">La pregunta no es <em>cuánto tengo</em>, sino <strong>cómo lo administro para Dios y mi familia</strong>.</p>
+  </section>
+
+  <!-- 1.2 administradores no dueños -->
+  <section class="slide center" data-who="Bloque 1 · Claudia">
+    <div class="kicker">Mayordomía</div>
+    <h2 style="margin:1.5vh 0 2vh">Somos administradores, no dueños</h2>
+    <div class="versecard" style="max-width:780px">
+      <div class="verse">"De Jehová es la tierra y su plenitud; el mundo, y los que en él habitan."</div>
+      <div class="ref">Salmo 24:1</div>
+    </div>
+    <p class="lead" style="max-width:820px;margin-top:3vh">Todo lo que tenemos <strong>ya es de Dios</strong>. Él nos lo confía para cuidarlo con sabiduría. Eso cambia todo: no gasto lo mío como quiero, <span class="gold">administro lo suyo como Él quiere</span>.</p>
+  </section>
+
+  <!-- 1.3 tesoro / corazon -->
+  <section class="slide center" data-who="Bloque 1 · Claudia">
+    <div class="kicker">El corazón</div>
+    <h2 style="margin:1.5vh 0 2vh">Donde está tu dinero, está tu corazón</h2>
+    <div class="versecard" style="max-width:780px">
+      <div class="verse">"Porque donde esté vuestro tesoro, allí estará también vuestro corazón."</div>
+      <div class="ref">Mateo 6:21</div>
+    </div>
+    <p class="lead" style="max-width:820px;margin-top:3vh">Nuestro estado de cuenta es un espejo del corazón. <strong>Muéstrame en qué gastas</strong> y te diré qué amas, qué temes y qué te da seguridad.</p>
+  </section>
+
+  <!-- 1.4 una sola carne -->
+  <section class="slide" data-who="Bloque 1 · Claudia">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <div class="kicker">Unidad</div>
+        <h2 style="margin:1.5vh 0 2vh">"Una sola carne"<br>también en las finanzas</h2>
+        <p class="lead">En el matrimonio no hay "tu dinero" y "mi dinero": hay <strong>nuestro dinero</strong> y una sola visión.</p>
+        <ul class="clean" style="margin-top:2vh">
+          <li><span>Dos personas, <strong>un mismo equipo</strong> y un mismo presupuesto.</span></li>
+          <li><span>Las cuentas se hablan; las metas se sueñan <strong>juntos</strong>.</span></li>
+          <li><span>Nadie decide grande cosas a solas.</span></li>
+        </ul>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Y los dos serán una sola carne… así que no son ya más dos, sino uno."</div>
+        <div class="ref">Marcos 10:8</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.5 causa #1 de conflictos -->
+  <section class="slide center" data-who="Bloque 1 · Claudia">
+    <div class="kicker">La realidad</div>
+    <h2 style="margin:1.5vh 0 2vh">El dinero: causa #1 de conflictos en la pareja</h2>
+    <p class="lead" style="max-width:900px">Muchas discusiones y separaciones no empiezan por falta de amor… empiezan por <strong>falta de acuerdos con el dinero</strong>: deudas, secretos, gastos y sueños que nunca se hablaron.</p>
+    <div class="pill" style="margin-top:3vh">La buena noticia: esto <strong>&nbsp;se puede aprender&nbsp;</strong> — y hoy empezamos</div>
+  </section>
+
+  <!-- ============ BLOQUE 2 — DIVIDER ============ -->
+  <section class="slide section-slide" data-who="Bloque 2 · Tomas">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="bignum">02</div>
+    <div class="kicker" style="margin:2vh 0 1vh">Desde cero</div>
+    <h1 style="max-width:1000px">Conceptos básicos de finanzas</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+  </section>
+
+  <!-- 2.1 ingresos vs egresos -->
+  <section class="slide center" data-who="Bloque 2 · Tomas">
+    <div class="kicker">El flujo del dinero</div>
+    <h2 style="margin:1.5vh 0 3vh">Ingresos vs. egresos</h2>
+    <div class="flow" style="max-width:1000px">
+      <div class="flowbox"><div class="big gold">Ingresos</div><p class="muted">Todo lo que <strong>entra</strong>: salarios, negocio, bonos.</p></div>
+      <div class="arrow">→</div>
+      <div class="flowbox"><div class="big gold">Egresos</div><p class="muted">Todo lo que <strong>sale</strong>: gastos y pagos.</p></div>
+      <div class="arrow">=</div>
+      <div class="flowbox" style="border-color:var(--green3)"><div class="big green">Balance</div><p class="muted">Lo que <strong>queda</strong> (o falta) a fin de mes.</p></div>
+    </div>
+    <p class="lead" style="margin-top:3vh">Regla de oro: que <strong>salga menos de lo que entra</strong>. Si gastas todo lo que ganas, no importa cuánto ganes.</p>
+  </section>
+
+  <!-- 2.2 presupuesto -->
+  <section class="slide" data-who="Bloque 2 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <div class="kicker">La herramienta clave</div>
+        <h2 style="margin:1.5vh 0 2vh">¿Qué es un presupuesto?</h2>
+        <p class="lead">Es un <strong>plan escrito</strong> que le dice a cada dólar a dónde ir <em>antes</em> de que se vaya solo.</p>
+        <ul class="clean" style="margin-top:2vh">
+          <li><span>No es una jaula: es <strong>libertad y paz</strong>.</span></li>
+          <li><span>Le da propósito a cada peso.</span></li>
+          <li><span>Se hace <strong>juntos</strong>, una vez al mes.</span></li>
+        </ul>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Los pensamientos del diligente ciertamente tienden a la abundancia; mas todo el que se apresura alocadamente, de cierto va a la pobreza."</div>
+        <div class="ref">Proverbios 21:5</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.3 tipos de gastos -->
+  <section class="slide" data-who="Bloque 2 · Tomas">
+    <div class="kicker">Conócelos para controlarlos</div>
+    <h2 style="margin:1.5vh 0 3vh">Tipos de gastos</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Fijos</h3><p class="muted">Iguales cada mes. Renta/hipoteca, seguros, colegiatura.</p></div>
+      <div class="card"><h3>Variables</h3><p class="muted">Cambian según el mes. Comida, gasolina, luz.</p></div>
+      <div class="card err"><h3>"Gastos hormiga"</h3><p class="muted">Pequeños e invisibles… pero suman: cafecito, delivery, suscripciones sin usar.</p></div>
+    </div>
+    <div class="ex" style="max-width:1000px;margin-top:3vh"><b>Ejemplo</b> &nbsp;$5 de café al día = <strong>$150 al mes</strong> = <strong>$1,800 al año</strong>. La hormiga se lleva tu ahorro sin que lo notes.</div>
+  </section>
+
+  <!-- 2.4 ahorro / fondo emergencia -->
+  <section class="slide" data-who="Bloque 2 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <div class="kicker">Guardar con propósito</div>
+        <h2 style="margin:1.5vh 0 2vh">Ahorro y fondo de emergencia</h2>
+        <ul class="clean">
+          <li><span><strong>Ahorra primero</strong>, no con lo que sobra: aparta apenas entra el dinero.</span></li>
+          <li><span><strong>Fondo de emergencia:</strong> de 3 a 6 meses de gastos para lo inesperado.</span></li>
+          <li><span>Aprende de la hormiga: guarda un poco, siempre.</span></li>
+        </ul>
+        <div class="ex"><b>Ejemplo</b> Si el carro se daña o falta el trabajo, el fondo te salva de endeudarte.</div>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Ve a la hormiga, oh perezoso… ella prepara en el verano su comida, y recoge en el tiempo de la siega su mantenimiento."</div>
+        <div class="ref">Proverbios 6:6-8</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.5 deudas -->
+  <section class="slide" data-who="Bloque 2 · Tomas">
+    <div class="kicker">Úsalas con sabiduría</div>
+    <h2 style="margin:1.5vh 0 3vh">Deudas: ¿buenas o malas?</h2>
+    <div class="grid g2">
+      <div class="card ok"><h3 class="green">Deuda "buena" (con cuidado)</h3><p class="muted">Financia algo que <strong>genera valor</strong> y está dentro de tu capacidad: casa, estudios, herramienta de trabajo.</p></div>
+      <div class="card err"><h3 style="color:var(--red)">Deuda mala</h3><p class="muted">Para <strong>consumo y aparentar</strong>: tarjetas al límite, gustos que no puedes pagar. Los intereses te esclavizan.</p></div>
+    </div>
+    <div class="versecard" style="margin-top:3vh">
+      <div class="verse">"El rico se enseñorea de los pobres, y el que toma prestado es siervo del que presta."</div>
+      <div class="ref">Proverbios 22:7</div>
+    </div>
+  </section>
+
+  <!-- 2.6 diezmo y generosidad -->
+  <section class="slide" data-who="Bloque 2 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <div class="kicker">Poner a Dios primero</div>
+        <h2 style="margin:1.5vh 0 2vh">Diezmo, ofrenda y generosidad</h2>
+        <p class="lead">Dar no nos empobrece: <strong>ordena el corazón</strong> y abre la puerta a la provisión de Dios.</p>
+        <ul class="clean" style="margin-top:1.5vh">
+          <li><span>Honramos a Dios con <strong>las primicias</strong>, no con las sobras.</span></li>
+          <li><span>Una familia generosa vive con <strong>manos abiertas</strong>, no cerradas.</span></li>
+        </ul>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Honra a Jehová con tus bienes, y con las primicias de todos tus frutos."</div>
+        <div class="ref">Proverbios 3:9</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.7 regla simple -->
+  <section class="slide center" data-who="Bloque 2 · Tomas">
+    <div class="kicker">Una regla fácil de recordar</div>
+    <h2 style="margin:1.5vh 0 3vh">Dar &nbsp;→&nbsp; Ahorrar &nbsp;→&nbsp; Vivir</h2>
+    <div class="flow" style="max-width:1050px">
+      <div class="flowbox"><div class="big">1 · Dar</div><p class="muted">Primero a Dios: diezmo y ofrenda &nbsp;- o -&nbsp; Generosidad.</p></div>
+      <div class="arrow">→</div>
+      <div class="flowbox"><div class="big">2 · Ahorrar</div><p class="muted">Aparta antes de gastar. "Págate a ti mismo".</p></div>
+      <div class="arrow">→</div>
+      <div class="flowbox"><div class="big">3 · Vivir</div><p class="muted">Con lo que queda, cubre gastos y disfruta sin culpa.</p></div>
+    </div>
+    <p class="lead" style="margin-top:3vh">Casi todos hacen lo contrario — viven, y ahorran lo que sobra (que nunca sobra). <strong>Invierte el orden.</strong></p>
+  </section>
+
+  <!-- ============ BLOQUE 3 — DIVIDER ============ -->
+  <section class="slide section-slide" data-who="Bloque 3 · Tomas">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="bignum">03</div>
+    <div class="kicker" style="margin:2vh 0 1vh">Aprendamos de ellos</div>
+    <h1 style="max-width:1000px">Errores que cometemos con el dinero</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+  </section>
+
+  <!-- 3.0 overview -->
+  <section class="slide" data-who="Bloque 3 · Tomas">
+    <div class="kicker">5 errores frecuentes</div>
+    <h2 style="margin:1.5vh 0 3vh">¿Cuáles reconoces?</h2>
+    <div class="grid g2" style="gap:1.6vh 2vw">
+      <div class="card err" style="display:flex;gap:1vw;align-items:center;padding:1.8vh 1.6vw"><span class="num">1</span><h3>Endeudarse innecesariamente</h3></div>
+      <div class="card err" style="display:flex;gap:1vw;align-items:center;padding:1.8vh 1.6vw"><span class="num">2</span><h3>Gastar sin planificación</h3></div>
+      <div class="card err" style="display:flex;gap:1vw;align-items:center;padding:1.8vh 1.6vw"><span class="num">3</span><h3>Buscar enriquecerse rápidamente</h3></div>
+      <div class="card err" style="display:flex;gap:1vw;align-items:center;padding:1.8vh 1.6vw"><span class="num">4</span><h3>No ahorrar</h3></div>
+      <div class="card err" style="display:flex;gap:1vw;align-items:center;padding:1.8vh 1.6vw"><span class="num">5</span><h3>Deshonestidad</h3></div>
+    </div>
+  </section>
+
+  <!-- 3.1 endeudarse -->
+  <section class="slide" data-who="Bloque 3 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <span class="pill">Error 1</span>
+        <h2 style="margin:1.5vh 0 2vh">Endeudarse innecesariamente</h2>
+        <p class="lead">Comprar hoy lo que no podemos pagar, para aparentar o por impulso. Los intereses nos vuelven <strong>siervos del que presta</strong>.</p>
+        <div class="ex"><b>Ejemplo</b> Financiar un carro más caro de lo que aguanta el presupuesto a 7 años, o pagar con tarjeta unas vacaciones que seguimos debiendo con intereses cuando ya terminaron.</div>
+      </div>
+      <div class="versecard">
+        <div class="verse">"No debáis a nadie nada, sino el amaros unos a otros."</div>
+        <div class="ref">Romanos 13:8 · Proverbios 22:7</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.2 gastar sin planificar -->
+  <section class="slide" data-who="Bloque 3 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <span class="pill">Error 2</span>
+        <h2 style="margin:1.5vh 0 2vh">Gastar sin planificación</h2>
+        <p class="lead">Sin un plan, el dinero decide por nosotros. Se va en mil cosas pequeñas y al final del mes <strong>no sabemos a dónde fue</strong>.</p>
+        <div class="ex"><b>Ejemplo</b> Ir al súper con hambre y sin lista → salir con el doble. O el "gasto hormiga" que se lleva $150–$200 al mes en cafés, delivery y suscripciones.</div>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Porque ¿quién de vosotros, queriendo edificar una torre, no se sienta primero y calcula los gastos, a ver si tiene lo que necesita?"</div>
+        <div class="ref">Lucas 14:28</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.3 enriquecerse rapido -->
+  <section class="slide" data-who="Bloque 3 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <span class="pill">Error 3</span>
+        <h2 style="margin:1.5vh 0 2vh">Buscar enriquecerse rápidamente</h2>
+        <p class="lead">El atajo suele terminar en pérdida. Dios bendice el <strong>trabajo diligente y constante</strong>, no la prisa ni la ambición desmedida.</p>
+        <div class="ex"><b>Ejemplo</b> Poner los ahorros de la familia en una "inversión" que promete duplicar el dinero en un mes, la crypto que esté a la moda, esquemas piramidales o apuestas.</div>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Los que quieren enriquecerse caen en tentación y lazo… porque raíz de todos los males es el amor al dinero."</div>
+        <div class="ref">1 Timoteo 6:9-10 · Proverbios 13:11</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.4 no ahorrar -->
+  <section class="slide" data-who="Bloque 3 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <span class="pill">Error 4</span>
+        <h2 style="margin:1.5vh 0 2vh">No ahorrar</h2>
+        <p class="lead">Vivir al día: gastar todo lo que entra. Sin reservas, <strong>cualquier imprevisto se convierte en crisis</strong> y en deuda.</p>
+        <div class="ex"><b>Ejemplo</b> Una emergencia médica o el carro dañado obligan a endeudarse porque no había nada apartado. La hormiga nos enseña: guardar un poco, siempre.</div>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Tesoro precioso y aceite hay en la casa del sabio; mas el hombre insensato todo lo disipa."</div>
+        <div class="ref">Proverbios 21:20</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.5 deshonestidad -->
+  <section class="slide" data-who="Bloque 3 · Tomas">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <span class="pill">Error 5</span>
+        <h2 style="margin:1.5vh 0 2vh">Deshonestidad</h2>
+        <p class="lead">La ganancia deshonesta no tiene bendición: <strong>lo que se gana mal, se va mal</strong>. Dios ve lo que nadie ve.</p>
+        <div class="ex"><b>Ejemplo</b> Engañar en un negocio, no declarar lo debido, "moverse" con dinero que no es nuestro… o esconderle gastos a mi cónyuge.</div>
+      </div>
+      <div class="versecard">
+        <div class="verse">"Vuestras riquezas están podridas… vuestro oro y plata están enmohecidos; y su moho testificará contra vosotros."</div>
+        <div class="ref">Santiago 5:2-3 · Proverbios 11:1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLOQUE 4 — DIVIDER ============ -->
+  <section class="slide section-slide" data-who="Bloque 4 · Claudia">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="bignum">04</div>
+    <div class="kicker" style="margin:2vh 0 1vh">Cuidemos la relación</div>
+    <h1 style="max-width:1000px">Errores financieros que destruyen matrimonios</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+  </section>
+
+  <!-- 4.0 los 6 -->
+  <section class="slide" data-who="Bloque 4 · Claudia">
+    <div class="kicker">No es el dinero… es cómo lo manejamos juntos</div>
+    <h2 style="margin:1.5vh 0 3vh">6 errores que rompen la confianza</h2>
+    <div class="grid g3" style="gap:1.6vh 1.6vw">
+      <div class="card err"><h3>1 · Ocultar gastos</h3><p class="muted">Compras a escondidas que erosionan la confianza.</p></div>
+      <div class="card err"><h3>2 · Deudas secretas</h3><p class="muted">Lo que se esconde, tarde o temprano estalla.</p></div>
+      <div class="card err"><h3>3 · Criticar al cónyuge</h3><p class="muted">El reproche constante hiere y cierra el diálogo.</p></div>
+      <div class="card err"><h3>4 · Compararse</h3><p class="muted">"La casa/carro de otros" roba la paz y el contentamiento.</p></div>
+      <div class="card err"><h3>5 · Gastar por emociones</h3><p class="muted">Comprar para tapar tristeza, enojo o ansiedad.</p></div>
+      <div class="card err"><h3>6 · Sin metas comunes</h3><p class="muted">Sin un rumbo compartido, cada uno rema para su lado.</p></div>
+    </div>
+  </section>
+
+  <!-- 4.1 transparencia + lema -->
+  <section class="slide center" data-who="Bloque 4 · Claudia">
+    <div class="kicker">El antídoto</div>
+    <h2 style="margin:1.5vh 0 2.5vh">La transparencia lo sana casi todo</h2>
+    <div class="pill" style="font-size:clamp(.95rem,1.8vw,1.5rem);padding:.7em 1.6em;background:var(--green);color:var(--gold-soft);border-color:var(--green)">
+      "Si no lo podemos decir, es porque no fue una buena compra."
+    </div>
+    <div class="versecard" style="max-width:820px;margin-top:3.5vh">
+      <div class="verse">"Desechando la mentira, hablad verdad cada uno con su prójimo; porque somos miembros los unos de los otros."</div>
+      <div class="ref">Efesios 4:25</div>
+    </div>
+  </section>
+
+  <!-- ============ DINÁMICA FINANCIERA ============ -->
+  <section class="slide section-slide" data-who="Dinámica · Ambos">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="pill" style="margin-bottom:2vh">¡Participemos juntos!</div>
+    <h1 style="max-width:1000px">Dinámica Financiera</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+    <p class="lead" style="max-width:820px">Un momento práctico para aplicar en pareja lo que hemos aprendido.</p>
+  </section>
+
+  <!-- ============ BLOQUE 5 — DIVIDER ============ -->
+  <section class="slide section-slide" data-who="Bloque 5 · Ambos">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="bignum">05</div>
+    <div class="kicker" style="margin:2vh 0 1vh">De la teoría a la mesa de la cocina</div>
+    <h1 style="max-width:1000px">Cómo lo aplicamos nosotros como pareja</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+  </section>
+
+  <!-- 5.1 acuerdos -->
+  <section class="slide" data-who="Bloque 5 · Ambos">
+    <div class="kicker">Nuestros acuerdos como pareja</div>
+    <h2 style="margin:1.5vh 0 3vh">Reglas que nos dan paz</h2>
+    <div class="grid g2" style="gap:1.4vh 2vw">
+      <ul class="clean check">
+        <li><span>Todo se habla — <strong>no hay dinero "tuyo" ni "mío"</strong>.</span></li>
+        <li><span>Hacemos el <strong>presupuesto juntos</strong> una vez al mes.</span></li>
+        <li><span>Ninguna <strong>compra grande</strong> sin acuerdo de los dos.</span></li>
+      </ul>
+      <ul class="clean check">
+        <li><span><strong>Cero deudas secretas.</strong> Transparencia total.</span></li>
+        <li><span><strong>Damos primero</strong> (diezmo) y apartamos el ahorro.</span></li>
+        <li><span>Revisamos nuestras <strong>metas</strong> y celebramos avances.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5.2 semaforo -->
+  <section class="slide" data-who="Bloque 5 · Ambos">
+    <div class="kicker">Cómo decidimos una compra</div>
+    <h2 style="margin:1.5vh 0 3vh">La regla del semáforo 🚦</h2>
+    <div class="grid" style="gap:1.6vh">
+      <div class="light"><span class="dot g"></span><div><h3 class="green">Verde · Adelante</h3><p class="muted">Está <strong>presupuestado y planeado</strong>. Hay dinero apartado. → Compramos con paz.</p></div></div>
+      <div class="light"><span class="dot y"></span><div><h3 style="color:#a8862f">Amarillo · Esperemos</h3><p class="muted">No estaba planeado o pasa cierto monto. → <strong>Lo hablamos y esperamos 24–48h</strong> antes de decidir.</p></div></div>
+      <div class="light"><span class="dot r"></span><div><h3 style="color:var(--red)">Rojo · No</h3><p class="muted">No hay dinero, genera deuda o es <strong>por emoción</strong>. → No lo hacemos.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 5.2b antes de gastar (N/D/A) + regla de ahorro -->
+  <section class="slide" data-who="Bloque 5 · Ambos">
+    <div class="kicker">En la práctica</div>
+    <h2 style="margin:1.5vh 0 3vh">Cómo decidimos una compra</h2>
+    <div class="grid g2" style="align-items:stretch">
+      <div class="card">
+        <h3 style="margin-bottom:1.8vh">Antes de gastar nos preguntamos…</h3>
+        <div class="light" style="box-shadow:none;border:none;padding:.8vh 0;gap:1vw"><span class="dot g" style="display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:800;font-size:clamp(.9rem,1.5vw,1.3rem)">N</span><div><h3 class="green" style="font-size:clamp(1rem,1.7vw,1.4rem)">Necesidad</h3><p class="muted">Lo indispensable para vivir.</p></div></div>
+        <div class="light" style="box-shadow:none;border:none;padding:.8vh 0;gap:1vw"><span class="dot y" style="display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:800;font-size:clamp(.9rem,1.5vw,1.3rem)">D</span><div><h3 style="color:#a8862f;font-size:clamp(1rem,1.7vw,1.4rem)">Deseo</h3><p class="muted">Calidad, marcas, lujos.</p></div></div>
+        <div class="light" style="box-shadow:none;border:none;padding:.8vh 0;gap:1vw"><span class="dot r" style="display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-weight:800;font-size:clamp(.9rem,1.5vw,1.3rem)">A</span><div><h3 style="color:var(--red);font-size:clamp(1rem,1.7vw,1.4rem)">Anhelo</h3><p class="muted">Solo cuando sobran fondos.</p></div></div>
+      </div>
+      <div class="card ok">
+        <h3 class="green" style="margin-bottom:1.8vh">Nuestra regla de ahorro</h3>
+        <div class="grid g2" style="gap:1.4vw">
+          <div style="text-align:center">
+            <div style="font-family:var(--serif);font-weight:800;color:var(--green);font-size:clamp(2rem,4.5vw,3.4rem);line-height:1">10%</div>
+            <p class="muted">de los ingresos, siempre al ahorro</p>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:var(--serif);font-weight:800;color:var(--gold);font-size:clamp(2rem,4.5vw,3.4rem);line-height:1">70/30</div>
+            <p class="muted">ingreso extra: 70% deuda · 30% ahorro</p>
+          </div>
+        </div>
+        <div class="ex" style="margin-top:2.2vh">Ahorrar primero nos protege de <strong>gastar por emociones</strong> y de las deudas sorpresa.</div>
+      </div>
+    </div>
+    <div class="ex" style="max-width:none;margin-top:2.5vh;text-align:center"><b>La clave</b> No es cuánto ganamos, sino <strong>cómo lo decidimos juntos</strong>. Cada compra grande la conversamos antes.</div>
+  </section>
+
+  <!-- 5.3 hoja presupuesto -->
+  <section class="slide" data-who="Bloque 5 · Ambos">
+    <div class="grid g2" style="align-items:center;gap:2.5vw">
+      <div>
+        <div class="kicker">El presupuesto en la práctica</div>
+        <h2 style="margin:1.5vh 0 2vh">Nuestra hoja de<br>Presupuesto Familiar</h2>
+        <ul class="clean">
+          <li><span><strong>Ingresos</strong> de los dos, sumados.</span></li>
+          <li><span><strong>Egresos</strong> por categoría: vivienda, transporte, alimentación, salud…</span></li>
+          <li><span>Un apartado para <strong>ahorro, fondo de emergencia y generosidad</strong>.</span></li>
+          <li><span><strong>Resumen mensual:</strong> ¿superávit o déficit?</span></li>
+        </ul>
+        <div class="pill" style="margin-top:2vh">Te la compartimos para que empieces hoy</div>
+      </div>
+      <div class="imgwrap" style="max-height:84vh;text-align:center"><img src="Recursos/Presupuesto_Familiar.png" alt="Hoja de Presupuesto Familiar" style="max-height:82vh;width:auto;max-width:100%"></div>
+    </div>
+  </section>
+
+  <!-- 5.4 metas / plan estrategico -->
+  <section class="slide" data-who="Bloque 5 · Ambos">
+    <div class="kicker">Metas comunes · Plan estratégico familiar</div>
+    <h2 style="margin:1.5vh 0 3vh">Escribir juntos hacia dónde vamos</h2>
+    <div class="grid g3">
+      <div class="card"><div class="num">A corto</div><p class="muted" style="margin-top:.6vh">Fondo de emergencia, salir de una deuda pequeña.</p></div>
+      <div class="card"><div class="num">A mediano</div><p class="muted" style="margin-top:.6vh">Comprar sin deudas, un viaje, un curso.</p></div>
+      <div class="card"><div class="num">A largo</div><p class="muted" style="margin-top:.6vh">Casa propia, educación de los hijos, retiro.</p></div>
+    </div>
+    <p class="lead" style="margin-top:3vh;text-align:center">Una meta escrita y compartida <strong>une al equipo</strong>. El sueño de uno se vuelve el sueño de los dos.</p>
+  </section>
+
+  <!-- 5.5 eliminar deuda + crecer ahorro -->
+  <section class="slide" data-who="Bloque 5 · Ambos">
+    <div class="grid g2" style="align-items:center">
+      <div>
+        <div class="kicker">El motor del plan</div>
+        <h2 style="margin:1.5vh 0 2vh">Eliminar deuda<br>&amp; hacer crecer el ahorro</h2>
+        <ul class="clean">
+          <li><span><strong>Bola de nieve:</strong> paga primero la deuda más pequeña; al liquidarla, aplica ese monto a la siguiente.</span></li>
+          <li><span>Cada deuda que cae <strong>libera dinero</strong> para la próxima meta.</span></li>
+          <li><span>Después, el ahorro <strong>crece solo</strong>: lo que pagabas de deuda ahora se guarda.</span></li>
+        </ul>
+      </div>
+      <div class="card ok" style="text-align:center">
+        <h3 class="green" style="margin-bottom:1.5vh">El ciclo virtuoso</h3>
+        <div class="big" style="font-family:var(--serif);font-weight:800;color:var(--green);font-size:clamp(1.1rem,2vw,1.6rem);line-height:1.9">
+          Pagar deuda →<br>liberar dinero →<br>ahorrar →<br><span class="gold">libertad financiera</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAMILY GOALS / METAS FAMILIARES ============ -->
+  <section class="slide section-slide" data-who="Family Goals · Ambos">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="kicker" style="margin-bottom:1vh">De la teoría a la práctica</div>
+    <h1 style="max-width:1000px">Family Goals</h1>
+    <div class="sub" style="letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:600;font-size:clamp(.9rem,2vw,1.5rem);margin-top:.5vh">Metas Familiares</div>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+    <p class="lead" style="max-width:860px">Así lo hacemos nosotros: un <strong>ejemplo real</strong> de cómo Claudia y yo hacemos nuestra <strong>planificación anual</strong> como matrimonio, año tras año.</p>
+    <div class="pill" style="margin-top:2.5vh">Las cifras mostradas son plantillas / ejemplos — no datos privados</div>
+  </section>
+
+  <!-- Reunión 2022 -->
+  <section class="slide center" data-who="Family Goals · Ambos">
+    <div class="kicker">Family Goals · Nuestra reunión anual</div>
+    <h2 style="margin:1.2vh 0 2vh">Reunión · 2022</h2>
+    <div class="imgwrap" style="max-height:74vh"><img src="Recursos/amor_y_finanzas_AD_Fuente_De_Luz_y_vida_1er/Reuniones/2022.jpeg" alt="Family Goals 2022" style="max-height:70vh;width:auto;max-width:100%"></div>
+  </section>
+
+  <!-- Reunión 2023 -->
+  <section class="slide center" data-who="Family Goals · Ambos">
+    <div class="kicker">Family Goals · Nuestra reunión anual</div>
+    <h2 style="margin:1.2vh 0 2vh">Reunión · 2023</h2>
+    <div class="imgwrap" style="max-height:74vh"><img src="Recursos/amor_y_finanzas_AD_Fuente_De_Luz_y_vida_1er/Reuniones/2023.jpeg" alt="Family Goals 2023" style="max-height:70vh;width:auto;max-width:100%"></div>
+  </section>
+
+  <!-- Reunión 2024 -->
+  <section class="slide center" data-who="Family Goals · Ambos">
+    <div class="kicker">Family Goals · Nuestra reunión anual</div>
+    <h2 style="margin:1.2vh 0 2vh">Reunión · 2024</h2>
+    <div class="imgwrap" style="max-height:74vh"><img src="Recursos/amor_y_finanzas_AD_Fuente_De_Luz_y_vida_1er/Reuniones/2024.jpeg" alt="Family Goals 2024" style="max-height:70vh;width:auto;max-width:100%"></div>
+  </section>
+
+  <!-- Reunión 2025 -->
+  <section class="slide center" data-who="Family Goals · Ambos">
+    <div class="kicker">Family Goals · Nuestra reunión anual</div>
+    <h2 style="margin:1.2vh 0 2vh">Reunión · 2025</h2>
+    <div class="imgwrap" style="max-height:74vh"><img src="Recursos/amor_y_finanzas_AD_Fuente_De_Luz_y_vida_1er/Reuniones/2025.jpeg" alt="Family Goals 2025" style="max-height:70vh;width:auto;max-width:100%"></div>
+  </section>
+
+  <!-- Reunión 2026 -->
+  <section class="slide center" data-who="Family Goals · Ambos">
+    <div class="kicker">Family Goals · Nuestra reunión anual</div>
+    <h2 style="margin:1.2vh 0 2vh">Reunión · 2026</h2>
+    <div class="imgwrap" style="max-height:74vh"><img src="Recursos/amor_y_finanzas_AD_Fuente_De_Luz_y_vida_1er/Reuniones/2026.jpeg" alt="Family Goals 2026" style="max-height:70vh;width:auto;max-width:100%"></div>
+  </section>
+
+  <!-- Plan Estratégico Familiar -->
+  <section class="slide" data-who="Family Goals · Ambos">
+    <div class="tag" style="position:static;display:inline-block;margin-bottom:1vh">Ejemplo · Plantilla</div>
+    <div class="kicker">Nuestro plan anual · Visión</div>
+    <h2 style="margin:1vh 0 2vh">Plan Estratégico Familiar</h2>
+    <div class="pill" style="margin-bottom:2.5vh">Lema del año: Disciplina → Estabilidad → Crecimiento</div>
+    <div class="grid g3">
+      <div class="card"><h3>Prioridades</h3>
+        <ul class="clean" style="margin-top:1.2vh">
+          <li><span>Reducir deudas</span></li>
+          <li><span>Construir un fondo de reserva</span></li>
+          <li><span>Crecimiento de ingresos</span></li>
+          <li><span>Generosidad</span></li>
+        </ul>
+      </div>
+      <div class="card ok"><h3 class="green">Metas</h3>
+        <ul class="clean check" style="margin-top:1.2vh">
+          <li><span>Deuda: bajar a la mitad</span></li>
+          <li><span>Ahorro: alcanzar la meta anual</span></li>
+          <li><span>Tarjetas bajo control</span></li>
+        </ul>
+      </div>
+      <div class="card err"><h3 style="color:var(--red)">Riesgos clave</h3>
+        <ul class="clean" style="margin-top:1.2vh">
+          <li><span>Demasiados proyectos a la vez</span></li>
+          <li><span>Subestimar costos</span></li>
+          <li><span>Sobrecarga de flujo de caja</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ex" style="max-width:none;margin-top:2.5vh"><b>Lo primero</b> Empezamos <strong>orando juntos</strong> y poniendo a Dios primero <em>(Mateo 6:33)</em>.</div>
+  </section>
+
+  <!-- ============ BLOQUE 6 — CIERRE ============ -->
+  <section class="slide section-slide" data-who="Cierre · Ambos">
+    <svg class="leaf tr" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="kicker" style="margin-bottom:1.5vh">Para llevar</div>
+    <h1 style="max-width:1000px">Empecemos esta misma semana</h1>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+  </section>
+
+  <!-- 6.1 3 pasos -->
+  <section class="slide" data-who="Cierre · Ambos">
+    <div class="kicker">3 pasos concretos</div>
+    <h2 style="margin:1.5vh 0 3vh">De aquí a la práctica</h2>
+    <div class="grid g3">
+      <div class="card ok"><div class="num">1</div><h3>La conversación honesta</h3><p class="muted">Pongan <strong>todo sobre la mesa</strong>: ingresos, deudas, miedos. Sin secretos.</p></div>
+      <div class="card ok"><div class="num">2</div><h3>Su primer presupuesto</h3><p class="muted">Llenen <strong>juntos</strong> la hoja de Presupuesto Familiar de este mes.</p></div>
+      <div class="card ok"><div class="num">3</div><h3>Una meta + el ahorro</h3><p class="muted">Definan <strong>una meta común</strong> y aparten su primer ahorro, por pequeño que sea.</p></div>
+    </div>
+  </section>
+
+  <!-- 6.2 compromiso -->
+  <section class="slide center" data-who="Cierre · Ambos">
+    <div class="kicker">Nuestro compromiso de pareja</div>
+    <h2 style="margin:2vh 0 1vh;max-width:1000px">Administraremos <span class="gold">juntos</span> lo que Dios nos confió</h2>
+    <p class="lead" style="max-width:820px">…con <strong>verdad</strong>, con <strong>orden</strong> y con <strong>generosidad</strong> — poniéndolo a Él en el centro de nuestras finanzas y de nuestro hogar.</p>
+  </section>
+
+  <!-- 6.3 versiculo cierre -->
+  <section class="slide center" data-who="Cierre · Ambos">
+    <div class="kicker">Y sobre todo…</div>
+    <h2 style="margin:1.5vh 0 2.5vh">Un cordón de tres dobleces</h2>
+    <div class="versecard" style="max-width:840px">
+      <div class="verse">"Y cordón de tres dobleces no se rompe pronto."</div>
+      <div class="ref">Eclesiastés 4:12</div>
+    </div>
+    <p class="lead" style="max-width:820px;margin-top:3vh">Ustedes dos… <strong>y Dios en el centro</strong>. Esa es la unión que ninguna presión económica puede romper.</p>
+  </section>
+
+  <!-- 6.4 gracias -->
+  <section class="slide center cover" data-who="">
+    <svg class="leaf tl" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g><g stroke="#b0894f" stroke-width="2" fill="none"><path d="M25 25 C70 45 110 45 165 38"/></g></svg>
+    <svg class="leaf br" viewBox="0 0 200 200"><g fill="#5b7d5a"><path d="M20 20 C60 30 90 70 100 120 C70 100 40 70 20 20Z"/><path d="M30 10 C80 25 120 40 170 35 C130 70 80 70 30 40Z" fill="#7c9a6e"/></g></svg>
+    <div class="script" style="font-size:clamp(3rem,8vw,6.5rem)">Gracias</div>
+    <div class="hr"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.8-8 11-8 11z"/></svg></div>
+    <p class="lead" style="max-width:760px">Que Dios bendiga sus finanzas y su matrimonio.<br>¿Conversamos? Estamos para servirles.</p>
+    <div class="foot" style="position:static;margin-top:3vh;text-transform:none;letter-spacing:.1em">
+      Tomas Jiménez &nbsp;&amp;&nbsp; Claudia Ogando
+    </div>
+  </section>
+
+</div>
+
+<!-- Chrome -->
+<div class="tag" id="tag"></div>
+<div class="who" id="who"></div>
+<div class="count" id="count"></div>
+<div class="foot">Las Finanzas en Pareja · Diseño de Dios</div>
+<div class="nav">
+  <button id="prev" aria-label="Anterior">‹</button>
+  <button id="next" aria-label="Siguiente">›</button>
+</div>
+<div class="hint">Usa ← → o la barra espaciadora · F para pantalla completa</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let i = 0;
+  const progress = document.getElementById('progress');
+  const count = document.getElementById('count');
+  const tag = document.getElementById('tag');
+  const who = document.getElementById('who');
+
+  function show(n){
+    i = Math.max(0, Math.min(slides.length-1, n));
+    slides.forEach((s,idx)=>s.classList.toggle('active', idx===i));
+    progress.style.width = ((i)/(slides.length-1)*100) + '%';
+    count.textContent = String(i+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
+    const w = slides[i].dataset.who || '';
+    who.textContent = w;
+    tag.style.display = w ? 'block' : 'none';
+    tag.textContent = w;
+    who.style.display = 'none'; // usamos tag para el rol
+  }
+  function next(){ show(i+1); }
+  function prev(){ show(i-1); }
+
+  document.getElementById('next').onclick = next;
+  document.getElementById('prev').onclick = prev;
+
+  document.addEventListener('keydown', e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){ e.preventDefault(); next(); }
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); prev(); }
+    else if(e.key==='Home'){ show(0); }
+    else if(e.key==='End'){ show(slides.length-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // click zones (right half -> next, left third -> prev)
+  document.getElementById('deck').addEventListener('click', e=>{
+    if(e.target.closest('button, a')) return;
+    const x = e.clientX / window.innerWidth;
+    if(x > 0.5) next(); else if(x < 0.25) prev();
+  });
+
+  // touch swipe
+  let tx=0;
+  document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>50){ dx<0?next():prev(); }
+  },{passive:true});
+
+  show(0);
+</script>
+</body>
+</html>
